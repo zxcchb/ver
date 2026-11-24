@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>游戏版本更新日历</title>
+<style>
+:root {
+  --bg: #f5f6f8;
+  --card: #ffffff;
+  --text: #1f2329;
+  --sub: #6b7280;
+  --line: #e5e7eb;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d0d0f;
+    --card: #1a1b1f;
+    --text: #e5e7eb;
+    --sub: #9ca3af;
+    --line: #2a2c33;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 32px 20px 56px;
+}
+.container { max-width: 1000px; margin: 0 auto; }
+.header { text-align: center; margin-bottom: 32px; }
+h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: 1px; }
+.subtitle { color: var(--sub); font-size: 0.88rem; margin-top: 6px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+@media (min-width: 760px) {
+  .grid { grid-template-columns: repeat(4, 1fr); }
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+}
+.card-top {
+  height: 5px;
+}
+.card-top.white-top {
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+}
+.card-body {
+  padding: 18px 20px 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.game-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.version-badge {
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  font-variant-numeric: tabular-nums;
+}
+.version-badge.white-text {
+  text-shadow: 0 0 1px rgba(0,0,0,0.35), 0 1px 2px rgba(0,0,0,0.25);
+}
+.version-label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--sub);
+  margin-top: 3px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 0.84rem;
+}
+.info-row .label { color: var(--sub); }
+.info-row .value { font-weight: 600; font-variant-numeric: tabular-nums; }
+.next-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.next-title {
+  font-size: 0.72rem;
+  color: var(--sub);
+  margin-bottom: 6px;
+}
+.next-version-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+.next-version-line .ver {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+.next-version-line .date {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.progress-track {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--line);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+.progress-fill.white-fill {
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+}
+.countdown-text {
+  margin-top: 9px;
+  font-size: 0.8rem;
+  text-align: right;
+}
+.countdown-text.urgent { color: #ef4444; font-weight: 700; }
+.countdown-text.done { color: var(--sub); }
+.progress-note {
+  margin-top: 6px;
+  font-size: 0.75rem;
+  color: var(--sub);
+  text-align: right;
+}
+.upcoming-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 14px;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  margin-bottom: 4px;
+}
+.upcoming-text {
+  font-size: 0.82rem;
+  color: var(--sub);
+}
+.upcoming-text strong {
+  color: var(--text);
+  font-weight: 700;
+}
+.upcoming-days {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--countdown, #ef4444);
+  font-variant-numeric: tabular-nums;
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>游戏版本更新日历</h1>
+    <p class="subtitle">崩坏3 · 原神 · 星穹铁道 · 绝区零</p>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+const DAY = 24 * 60 * 60 * 1000;
+const PREVIEW_LEAD_DAYS = 14; // 前瞻直播通常在版本结束前约 2 周
+
+// 名称 | 当前版本 | 上线日期 | 周期(天) | 有无前瞻 | 主题色
+const GAMES = [
+  { name: "崩坏3",    ver: "9.1", anchor: "2026-09-24", cycle: 63, hasPreview: false, color: "#8a6bd1" },
+  { name: "原神",     ver: "7.2", anchor: "2026-11-04", cycle: 42, hasPreview: true,  color: "#ffffff" },
+  { name: "星穹铁道", ver: "4.7", anchor: "2026-11-11", cycle: 42, hasPreview: true,  color: "#f5a3c7" },
+  { name: "绝区零",   ver: "3.4", anchor: "2026-12-02", cycle: 42, hasPreview: true,  color: "#f59e0b" },
+];
+
+function addVersion(ver, n) {
+  const [major, minor] = ver.split(".").map(Number);
+  const total = major * 10 + (minor || 0) + n;
+  return Math.floor(total / 10) + "." + (total % 10);
+}
+
+function formatDate(d) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return y + "-" + m + "-" + day;
+}
+
+function daysUntil(dateStr) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(dateStr + "T00:00:00");
+  return Math.round((target - today) / DAY);
+}
+
+function render() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+
+  GAMES.forEach(g => {
+    const anchorDate = new Date(g.anchor + "T00:00:00");
+    const nextDate = new Date(anchorDate.getTime() + g.cycle * DAY);
+    const nextVer = addVersion(g.ver, 1);
+
+    // 白色主题色在浅色模式下需要描边/阴影
+    const isWhite = g.color.toLowerCase() === "#ffffff";
+
+    // 当前版本已进行天数（负数 = 还没上线）
+    const elapsedDays = -daysUntil(g.anchor);
+    const notStarted = elapsedDays < 0;
+    const progress = notStarted ? 0 : Math.min(100, Math.round(elapsedDays / g.cycle * 100));
+
+    const nextDays = daysUntil(formatDate(nextDate));
+
+    // 前瞻直播：版本结束前约 2 周
+    const previewDate = new Date(nextDate.getTime() - PREVIEW_LEAD_DAYS * DAY);
+
+    let countdownHtml;
+    if (nextDays > 0) {
+      const urgent = nextDays <= 7;
+      countdownHtml = `<div class="countdown-text ${urgent ? "urgent" : ""}">距离 ${nextVer} 更新还有 ${nextDays} 天</div>`;
+    } else {
+      countdownHtml = `<div class="countdown-text done">${nextVer} 已上线</div>`;
+    }
+
+    // 进度区：已上线版本画进度条；未上线版本画"距上线倒计时"提示
+    let progressHtml;
+    if (notStarted) {
+      progressHtml = `
+        <div class="upcoming-box" style="border-color:${g.color}40">
+          <span class="upcoming-text">${g.ver} 将于 <strong style="color:${g.color}">${g.anchor}</strong> 上线</span>
+          <span class="upcoming-days">还有 ${-elapsedDays} 天</span>
+        </div>`;
+    } else {
+      progressHtml = `
+        <div class="progress-track">
+          <div class="progress-fill ${isWhite ? "white-fill" : ""}" style="width:${progress}%;background:${g.color}"></div>
+        </div>
+        <div class="progress-note">${g.ver} 已进行 ${elapsedDays} / ${g.cycle} 天</div>`;
+    }
+
+    const previewHtml = g.hasPreview
+      ? `<div class="info-row"><span class="label">前瞻直播</span><span class="value">${formatDate(previewDate)}</span></div>`
+      : "";
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="card-top ${isWhite ? "white-top" : ""}" style="background:${g.color}"></div>
+      <div class="card-body">
+        <div class="card-head">
+          <div>
+            <div class="game-name">${g.name}</div>
+            <span class="version-label">当前版本</span>
+          </div>
+          <span class="version-badge ${isWhite ? "white-text" : ""}" style="color:${g.color}">${g.ver}</span>
+        </div>
+        <div class="info">
+          <div class="info-row"><span class="label">上线日期</span><span class="value">${g.anchor}</span></div>
+          <div class="info-row"><span class="label">版本周期</span><span class="value">${g.cycle} 天</span></div>
+          ${previewHtml}
+        </div>
+        <div class="next-box">
+          <div class="next-title">下一版本</div>
+          <div class="next-version-line">
+            <span class="ver" style="color:${g.color}">${nextVer}</span>
+            <span class="date">${formatDate(nextDate)}</span>
+          </div>
+          ${progressHtml}
+          ${countdownHtml}
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+render();
+</script>
+</body>
+</html>
