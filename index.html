@@ -98,38 +98,23 @@ html[data-theme="light"] .ico-sun { display: none; } html[data-theme="light"] .i
   position: relative; overflow: hidden; border: 1px solid var(--border); background: var(--card);
   border-radius: 22px; padding: clamp(18px, 2.8vw, 26px) clamp(20px, 3.6vw, 32px);
   box-shadow: var(--shadow); backdrop-filter: blur(20px); margin-bottom: 32px;
+  display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
 }
 .hero::before {
   content: ""; position: absolute; inset: 0;
   background: radial-gradient(80% 140% at 0% 0%, color-mix(in srgb, var(--g, #8b5cf6) 14%, transparent), transparent 70%);
   pointer-events: none;
 }
-.hero-head { position: relative; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
-.hero-label { font-size: .92rem; font-weight: 800; letter-spacing: .02em; }
-.hero-label b { color: var(--g); }
-.hero-count { font-size: .74rem; color: var(--text-3); }
-
-.timeline { position: relative; height: 140px; padding: 0 6px; }
-.tl-track { position: absolute; left: 6px; right: 6px; top: 50%; height: 2px; background: var(--border-strong); border-radius: 1px; }
-.tl-track::before, .tl-track::after { content: ""; position: absolute; top: 50%; width: 8px; height: 8px; border-radius: 50%; background: var(--border-strong); transform: translateY(-50%); }
-.tl-track::before { left: -4px; } .tl-track::after { right: -4px; }
-.tl-node { position: absolute; top: 50%; transform: translate(-50%, -50%); z-index: 2; }
-.tl-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--gc); box-shadow: 0 0 0 3px var(--card-solid), 0 0 10px var(--gc); }
-.tl-tag {
-  position: absolute; left: 50%; transform: translateX(-50%); white-space: nowrap; text-align: center;
-  background: var(--card-solid); border: 1px solid var(--border-strong); border-radius: 7px; padding: 4px 8px;
-  box-shadow: var(--shadow);
-}
-.tl-node.above .tl-tag { bottom: 16px; }
-.tl-node.below .tl-tag { top: 16px; }
-.tl-g { display: block; font-size: .72rem; font-weight: 800; color: var(--gc); line-height: 1.2; }
-.tl-t { display: block; font-size: .65rem; color: var(--text-2); margin-top: 1px; }
-.tl-scale { position: absolute; left: 6px; right: 6px; bottom: 0; height: 14px; }
-.tl-scale span { position: absolute; transform: translateX(-50%); font-size: .63rem; color: var(--text-3); letter-spacing: .04em; white-space: nowrap; }
-.tl-scale span:first-child { transform: none; }
-.tl-scale span:last-child { transform: translateX(-100%); }
-.tl-node.edge-l .tl-tag { transform: none; left: -6px; }
-.tl-node.edge-r .tl-tag { transform: translateX(-100%); left: auto; right: -6px; }
+.hero-main { position: relative; min-width: 0; }
+.hero-eyebrow { font-size: .72rem; font-weight: 700; letter-spacing: .16em; color: var(--g); text-transform: uppercase; margin-bottom: 8px; }
+.hero-title { font-size: clamp(1.35rem, 2.8vw, 1.95rem); font-weight: 800; line-height: 1.25; }
+.hero-title span { color: var(--g); }
+.hero-sub { margin-top: 8px; font-size: .84rem; color: var(--text-2); }
+.hero-clock { position: relative; display: flex; align-items: flex-end; gap: clamp(8px, 1.4vw, 14px); padding: 14px 20px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); }
+.hero-clock .cell { display: flex; flex-direction: column; align-items: center; min-width: 46px; }
+.hero-clock b { font-size: clamp(1.8rem, 3.4vw, 2.6rem); font-weight: 800; line-height: 1; }
+.hero-clock span { font-size: .68rem; letter-spacing: .1em; color: var(--text-3); margin-top: 6px; }
+.hero-clock i { font-style: normal; font-size: 1.5rem; color: var(--text-3); padding-bottom: 16px; }
 
 .sec { margin-bottom: 36px; }
 .sec-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
@@ -223,7 +208,7 @@ select { padding: 5px 10px; border-radius: 9px; border: 1px solid var(--border);
   transform: scale(1); transform-origin: center center;
   transition: background-color .22s var(--ease), transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease);
 }
-.play-btn svg { width: 18px; height: 18px; display: block; transform: translateX(1.5px); }
+.play-btn svg { width: 24px; height: 24px; display: block; }
 .play-btn::after {
   content: ""; position: absolute; inset: -1.5px; border-radius: 50%;
   border: 2px solid var(--g); opacity: 0; pointer-events: none;
@@ -291,11 +276,9 @@ select { padding: 5px 10px; border-radius: 9px; border: 1px solid var(--border);
   .brand h1 { font-size: 1.08rem; }
   .logo, .icon-btn { width: 34px; height: 34px; }
   .search { order: 5; max-width: none; width: 100%; flex-basis: 100%; }
-  .hero { padding: 16px; border-radius: 16px; }
-  .timeline { height: 132px; }
-  .tl-tag { padding: 3px 6px; }
-  .tl-g { font-size: .68rem; }
-  .tl-t { font-size: .62rem; }
+  .hero { padding: 16px; border-radius: 16px; gap: 16px; }
+  .hero-clock { width: 100%; justify-content: space-between; padding: 12px 14px; }
+  .hero-clock .cell { flex: 1; min-width: 0; }
   .vgrid { grid-template-columns: 1fr; }
   .modal { padding: 10px; }
   .mbox { border-radius: 14px; }
@@ -383,7 +366,7 @@ select { padding: 5px 10px; border-radius: 9px; border: 1px solid var(--border);
 const DAY = 86400000, KEY = "hoyo-pv-v12", LIMIT = 24, PAGE_MAX = 300;
 const WK = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
 const CATS = ["版本PV", "剧情PV", "过场动画", "角色演示", "角色PV", "动画短片", "EP", "音乐", "前瞻", "其他"];
-const PLAY_ICON = `<div class="play-wrap"><div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div></div>`;
+const PLAY_ICON = `<div class="play-wrap"><div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 5v14l9-7z" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/></svg></div></div>`;
 
 const GAMES = [
   {
@@ -470,43 +453,27 @@ function renderDashboard() {
   });
   nodes.sort((a, b) => a.dt - b.dt);
 
-  // 时间轴跨度：至少 30 天，向上取整到 7 的倍数
-  const maxDt = nodes.length ? nodes[nodes.length - 1].dt : addDays(now, 30);
-  const span = Math.max(30, Math.ceil((maxDt - now) / DAY / 7) * 7);
-  const rangeEnd = addDays(now, span);
-
-  const hero = $("#hero");
-  if (nodes.length) {
-    hero.style.setProperty("--g", nodes[0].g.color);
+  // hero：最近一个节点的实时倒计时（天/时/分/秒），与卡片的天数级倒计时形成粒度差异、不重复
+  const hero = $("#hero"), top = nodes[0];
+  if (top) {
+    const hh = String(top.dt.getHours()).padStart(2, "0"), mm = String(top.dt.getMinutes()).padStart(2, "0");
+    hero.style.setProperty("--g", top.g.color);
     hero.innerHTML = `
-      <div class="hero-head">
-        <span class="hero-label">未来 <b>${span}</b> 天 · 版本节点时间轴</span>
-        <span class="hero-count num">${nodes.length} 个节点 · 最近：${nodes[0].g.name} ${fmtShort(nodes[0].dt)}</span>
+      <div class="hero-main">
+        <div class="hero-eyebrow">NEXT UP · 最近节点</div>
+        <div class="hero-title">${top.g.name} <span>v${top.ver}</span> ${top.type === "update" ? "版本更新" : "前瞻特别节目"}</div>
+        <div class="hero-sub">${fmtFull(top.dt)} ${WK[top.dt.getDay()]} ${hh}:${mm}</div>
       </div>
-      <div class="timeline">
-        <div class="tl-track"></div>
-        ${nodes.map((n, i) => {
-          const pct = Math.min(100, Math.max(0, (n.dt - now) / (rangeEnd - now) * 100));
-          const days = Math.max(0, Math.ceil((n.dt - now) / DAY));
-          const edge = pct < 8 ? " edge-l" : pct > 92 ? " edge-r" : "";
-          return `<div class="tl-node ${i % 2 ? "below" : "above"}${edge}" style="left:${pct}%;--gc:${n.g.color}" title="${n.g.name} ${n.type === "update" ? "v" + n.ver + " 更新" : "前瞻"} · ${fmtFull(n.dt)}">
-            <div class="tl-dot"></div>
-            <div class="tl-tag">
-              <span class="tl-g">${n.g.name}</span>
-              <span class="tl-t">${n.type === "update" ? "更新" : "前瞻"} · ${days}天</span>
-            </div>
-          </div>`;
-        }).join("")}
-        <div class="tl-scale num">
-          ${Array.from({ length: Math.floor(span / 7) + 1 }, (_, k) => {
-            const pct = k * 7 / span * 100;
-            return `<span style="left:${pct}%">${fmtShort(addDays(now, k * 7))}</span>`;
-          }).join("")}
-        </div>
+      <div class="hero-clock num" id="heroClock" data-ts="${top.dt.getTime()}">
+        <div class="cell"><b class="dd">--</b><span>天</span></div><i>:</i>
+        <div class="cell"><b class="hh">--</b><span>时</span></div><i>:</i>
+        <div class="cell"><b class="mm">--</b><span>分</span></div><i>:</i>
+        <div class="cell"><b class="ss">--</b><span>秒</span></div>
       </div>`;
   } else {
-    hero.innerHTML = `<div class="hero-head"><span class="hero-label">暂无近期版本节点</span></div>`;
+    hero.innerHTML = `<div class="hero-main"><div class="hero-title">暂无近期版本节点</div></div>`;
   }
+  tickClock();
 
   $("#cards").innerHTML = states.map(({ g, tl }) => {
     const totalDays = Math.max(1, Math.round((tl.nextDt - tl.start) / DAY));
@@ -549,6 +516,19 @@ function renderDashboard() {
         </div>
       </article>`;
   }).join("");
+}
+
+function tickClock() {
+  const box = $("#heroClock");
+  if (!box) return;
+  let diff = Math.max(0, +box.dataset.ts - Date.now());
+  const d = Math.floor(diff / DAY); diff -= d * DAY;
+  const h = Math.floor(diff / 3600000); diff -= h * 3600000;
+  const m = Math.floor(diff / 60000); diff -= m * 60000;
+  box.querySelector(".dd").textContent = d;
+  box.querySelector(".hh").textContent = String(h).padStart(2, "0");
+  box.querySelector(".mm").textContent = String(m).padStart(2, "0");
+  box.querySelector(".ss").textContent = String(Math.floor(diff / 1000)).padStart(2, "0");
 }
 
 function classify(s, g) {
@@ -809,6 +789,7 @@ qClear.onclick = () => {
 };
 
 renderDashboard();
+setInterval(tickClock, 1000);
 setInterval(renderDashboard, 600000);
 load(false);
 </script>
