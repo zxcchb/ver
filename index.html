@@ -373,7 +373,7 @@ const GAMES = [
     id: "bh3", name: "崩坏3", color: "#9b7ae0", color2: "#bfa6f7",
     cur: "9.1", start: "2026-09-24", next: "9.2", nextDate: "2026-11-26",
     cycle: 63, updateTime: "06:00", pvKind: "irregular",
-    notice: "https://www.miyoushe.com/bh3/gameCenter/14"
+    notice: "https://bh3.mihoyo.com/news"
   },
   {
     id: "gi", name: "原神", color: "#d9a12c", color2: "#f3c766",
@@ -512,7 +512,7 @@ function renderDashboard() {
           <div class="meta-row"><span class="k">v${tl.next} 上线</span><span class="v num">${fmtFull(tl.nextDt)} ${WK[tl.nextDt.getDay()]}</span></div>
         </div>
         <div class="card-foot">
-          <a href="${g.notice}" target="_blank" rel="noopener">查看版本公告 →</a>
+          <a href="${g.notice}" target="_blank" rel="noopener">查看游戏新闻 →</a>
         </div>
       </article>`;
   }).join("");
