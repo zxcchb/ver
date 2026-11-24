@@ -7,243 +7,359 @@
 <style>
 :root {
   color-scheme: light dark;
-  --bg: #f6f7f9;
+  --bg: #f4f5f7;
   --card: #ffffff;
-  --text: #1a1d23;
-  --sub: #6b7280;
-  --line: #e7e9ee;
-  --track: #eceef2;
-  --shadow: 0 1px 2px rgba(16,24,40,0.04), 0 8px 24px rgba(16,24,40,0.06);
-  --shadow-hover: 0 4px 12px rgba(16,24,40,0.08), 0 16px 40px rgba(16,24,40,0.12);
-  --urgent: #dc2626;
+  --surface: #f8f9fb;
+  --text: #14171f;
+  --text-secondary: #5c6370;
+  --text-muted: #8c93a0;
+  --border: rgba(16, 24, 40, 0.08);
+  --track: #e6e8ee;
+  --shadow: 0 2px 6px rgba(16,24,40,0.03), 0 12px 32px rgba(16,24,40,0.06);
+  --shadow-hover: 0 12px 28px rgba(16,24,40,0.10), 0 24px 48px rgba(16,24,40,0.12);
+  --urgent: #e11d48;
+  --urgent-bg: rgba(225, 29, 72, 0.08);
 }
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0b0c0f;
-    --card: #17181d;
-    --text: #e7e9ee;
-    --sub: #9aa0ab;
-    --line: #26282f;
-    --track: #26282f;
-    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.4);
-    --shadow-hover: 0 4px 12px rgba(0,0,0,0.4), 0 16px 40px rgba(0,0,0,0.55);
-    --urgent: #f87171;
+    --bg: #090a0d;
+    --card: #13151a;
+    --surface: #1a1d24;
+    --text: #f1f3f7;
+    --text-secondary: #9aa1ae;
+    --text-muted: #646b78;
+    --border: rgba(255, 255, 255, 0.08);
+    --track: #232730;
+    --shadow: 0 4px 12px rgba(0,0,0,0.4), 0 16px 36px rgba(0,0,0,0.5);
+    --shadow-hover: 0 12px 32px rgba(0,0,0,0.6), 0 24px 56px rgba(0,0,0,0.7);
+    --urgent: #fb7185;
+    --urgent-bg: rgba(251, 113, 133, 0.12);
   }
 }
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
   background: var(--bg);
   color: var(--text);
-  line-height: 1.6;
-  padding: 48px 20px 64px;
-  transition: background 0.2s ease;
+  line-height: 1.5;
+  padding: 56px 20px 80px;
 }
-.container { max-width: 1040px; margin: 0 auto; }
-.header { text-align: center; margin-bottom: 36px; }
+
+.container { max-width: 1120px; margin: 0 auto; }
+
+/* 头部标题区 */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 44px;
+}
+.header-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
 h1 {
-  font-size: 1.75rem;
+  font-size: 1.9rem;
   font-weight: 800;
   letter-spacing: 0.5px;
-  line-height: 1.3;
+  line-height: 1.2;
 }
 .subtitle {
-  color: var(--sub);
-  font-size: 0.9rem;
-  margin-top: 8px;
-  letter-spacing: 0.3px;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+
+/* 响应式网格 */
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 20px;
 }
-@media (min-width: 720px) {
+@media (min-width: 600px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
   .grid { grid-template-columns: repeat(4, 1fr); }
 }
-@media (max-width: 719px) and (min-width: 400px) {
-  .grid { gap: 16px; }
-}
+
+/* 卡片容器 */
 .card {
+  position: relative;
   background: var(--card);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   box-shadow: var(--shadow);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
 }
 .card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px);
   box-shadow: var(--shadow-hover);
-  border-color: var(--gc-soft);
+  border-color: var(--gc-border);
 }
-.card-top {
-  height: 4px;
+
+/* 顶部极细氛围光条 */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
   background: linear-gradient(90deg, var(--gc), var(--gc-soft));
+  opacity: 0.85;
 }
-.card-body {
-  padding: 20px 20px 22px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.card.is-urgent {
+  border-color: rgba(251, 113, 133, 0.32);
 }
-.card-head {
+.card.is-urgent::before {
+  height: 3.5px;
+  background: var(--urgent);
+}
+
+/* 1. 顶部识别区：游戏名 + 当前版本微标 */
+.card-header {
+  padding: 22px 22px 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  margin-bottom: 18px;
   gap: 8px;
 }
-.game-name {
-  font-size: 0.92rem;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  line-height: 1.3;
-}
-.version-label {
-  display: block;
-  font-size: 0.68rem;
-  color: var(--sub);
-  margin-top: 3px;
-  font-weight: 500;
+.game-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.05rem;
+  font-weight: 800;
   letter-spacing: 0.3px;
 }
-.version-badge {
-  font-size: 1.4rem;
+.game-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gc);
+  box-shadow: 0 0 8px var(--gc);
+}
+.current-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--gc);
+  background: var(--gc-tint);
+  padding: 3px 9px;
+  border-radius: 999px;
+  letter-spacing: 0.3px;
+}
+
+/* 2. 核心视觉焦点：倒计时大数字 + 目标版本 */
+.hero-countdown {
+  padding: 22px 22px 18px;
+  background: radial-gradient(120% 90% at 0% 0%, var(--gc-tint) 0%, transparent 70%);
+}
+.target-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+.target-ver {
+  color: var(--gc);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.countdown-display {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+.countdown-num {
+  font-size: 2.85rem;
   font-weight: 800;
   line-height: 1;
-  letter-spacing: 0.5px;
+  letter-spacing: -1.5px;
   font-variant-numeric: tabular-nums;
-  color: var(--gc);
+  color: var(--text);
 }
-.info {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  margin-bottom: 20px;
+.is-urgent .countdown-num {
+  color: var(--urgent);
 }
-.info-row {
+.countdown-unit {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+.urgent-tag {
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--urgent);
+  background: var(--urgent-bg);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* 3. 时间轴进度区（空间映射：左起点=上线日，右终点=更新日） */
+.timeline-box {
+  padding: 0 22px 20px;
+}
+.progress-header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
-  font-size: 0.82rem;
-  gap: 12px;
-}
-.info-row .label { color: var(--sub); font-weight: 500; flex-shrink: 0; }
-.info-row .value { font-weight: 600; font-variant-numeric: tabular-nums; text-align: right; }
-.next-box {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding-top: 4px;
-}
-.next-title {
-  font-size: 0.7rem;
-  color: var(--sub);
+  font-size: 0.72rem;
+  color: var(--text-muted);
   margin-bottom: 7px;
-  font-weight: 600;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-}
-.next-version-line {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  gap: 8px;
-}
-.next-version-line .ver {
-  font-weight: 800;
-  font-size: 1.12rem;
-  color: var(--gc);
   font-variant-numeric: tabular-nums;
 }
-.next-version-line .date {
+.progress-header strong {
+  color: var(--text-secondary);
   font-weight: 600;
-  font-size: 0.88rem;
-  font-variant-numeric: tabular-nums;
 }
 .progress-track {
   height: 6px;
   border-radius: 999px;
   background: var(--track);
   overflow: hidden;
+  position: relative;
 }
 .progress-fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--gc), var(--gc-soft));
-  transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  background: linear-gradient(90deg, var(--gc-soft), var(--gc));
+  transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.progress-note {
+.is-urgent .progress-fill {
+  background: linear-gradient(90deg, var(--gc), var(--urgent));
+}
+.timeline-dates {
+  display: flex;
+  justify-content: space-between;
   margin-top: 8px;
-  font-size: 0.74rem;
-  color: var(--sub);
-  text-align: right;
+  font-size: 0.72rem;
+  color: var(--text-muted);
   font-variant-numeric: tabular-nums;
 }
-.countdown-text {
-  margin-top: 6px;
-  font-size: 0.8rem;
-  text-align: right;
+.timeline-dates .end-date {
+  color: var(--text-secondary);
   font-weight: 600;
-  color: var(--sub);
 }
-.countdown-text.urgent {
-  color: var(--urgent);
-  font-weight: 800;
+
+/* 4. 关键节点摘要栏（统一高度，解决长短不一痛点） */
+.meta-list {
+  margin: 0 22px 18px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: auto; /* 自动贴底对齐 */
 }
-.notice-btn {
-  display: inline-flex;
+.meta-item {
+  display: flex;
   align-items: center;
-  gap: 5px;
-  margin-top: 14px;
-  padding: 8px 0;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--gc);
-  text-decoration: none;
-  border-top: 1px solid var(--line);
-  letter-spacing: 0.3px;
-  transition: opacity 0.15s ease;
+  justify-content: space-between;
+  font-size: 0.78rem;
 }
-.notice-btn:hover { opacity: 0.75; }
-.notice-btn .arrow { font-size: 0.9rem; transition: transform 0.15s ease; }
-.notice-btn:hover .arrow { transform: translateX(2px); }
+.meta-label {
+  color: var(--text-secondary);
+}
+.meta-value {
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  color: var(--text);
+}
+.meta-value.done {
+  color: var(--text-muted);
+  text-decoration: line-through;
+  font-weight: 500;
+}
+.meta-value.upcoming {
+  color: var(--gc);
+}
+.meta-value.none {
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* 5. 底部行动栏 */
+.notice-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 22px;
+  font-size: 0.8rem;
+  font-weight: 650;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-top: 1px solid var(--border);
+  transition: background 0.18s ease, color 0.18s ease;
+}
+.notice-btn:hover {
+  background: var(--gc-tint);
+  color: var(--gc);
+}
+.notice-btn .arrow {
+  transition: transform 0.18s ease;
+}
+.notice-btn:hover .arrow {
+  transform: translateX(3px);
+}
 </style>
 </head>
 <body>
 <div class="container">
-  <div class="header">
+  <header class="header">
+    <div class="header-eyebrow">HoYoverse Version Tracker</div>
     <h1>游戏版本更新日历</h1>
     <p class="subtitle">崩坏3 · 原神 · 星穹铁道 · 绝区零</p>
-  </div>
-  <div class="grid" id="grid"></div>
+  </header>
+  <main class="grid" id="grid"></main>
 </div>
 
 <script>
 const DAY = 24 * 60 * 60 * 1000;
-const PREVIEW_LEAD_DAYS = 14; // 前瞻直播通常在版本结束前约 2 周
+const PREVIEW_LEAD_DAYS = 14;
 
-// 名称 | 当前版本 | 上线日期 | 周期(天) | 有无前瞻 | 主色 | 辅色(用于渐变) | 米游社版本专题页
-// 主色/辅色分别适配深色(亮)与浅色(暗)两种模式
 const GAMES = [
-  { name: "崩坏3",    ver: "9.1", anchor: "2026-09-24", cycle: 63, hasPreview: false,
+  {
+    name: "崩坏3", ver: "9.1", anchor: "2026-09-24", cycle: 63, hasPreview: false,
     notice: "https://www.miyoushe.com/bh3/gameCenter/14",
-    color: { light: "#7c5bd6", dark: "#a78bfa", soft: { light: "#a78bfa", dark: "#6d4fc0" } } },
-  { name: "原神",     ver: "7.2", anchor: "2026-11-04", cycle: 42, hasPreview: true,
+    color: { light: "#7c5bd6", dark: "#a78bfa", soft: { light: "#9d82e8", dark: "#7c5bd6" } }
+  },
+  {
+    name: "原神", ver: "7.2", anchor: "2026-11-04", cycle: 42, hasPreview: true,
     notice: "https://www.miyoushe.com/ys/gameCenter/3",
-    color: { light: "#c78a1e", dark: "#e8b54a", soft: { light: "#e0ad3f", dark: "#b5791a" } } },
-  { name: "星穹铁道", ver: "4.7", anchor: "2026-11-11", cycle: 42, hasPreview: true,
+    color: { light: "#c78a1e", dark: "#eab308", soft: { light: "#e0ad3f", dark: "#ca8a04" } }
+  },
+  {
+    name: "星穹铁道", ver: "4.7", anchor: "2026-11-11", cycle: 42, hasPreview: true,
     notice: "https://www.miyoushe.com/sr/gameCenter/19",
-    color: { light: "#d06a9a", dark: "#f2a6c8", soft: { light: "#e89ac0", dark: "#c25a8a" } } },
-  { name: "绝区零",   ver: "3.3", anchor: "2026-10-21", cycle: 42, hasPreview: true,
+    color: { light: "#d06a9a", dark: "#f472b6", soft: { light: "#e89ac0", dark: "#db2777" } }
+  },
+  {
+    name: "绝区零", ver: "3.3", anchor: "2026-10-21", cycle: 42, hasPreview: true,
     notice: "https://www.miyoushe.com/zzz/gameCenter/20",
-    color: { light: "#e05a2b", dark: "#f5814d", soft: { light: "#f08a5c", dark: "#cf4f22" } } },
+    color: { light: "#e05a2b", dark: "#fb7138", soft: { light: "#f08a5c", dark: "#ea580c" } }
+  },
 ];
 
 function addVersion(ver, n) {
@@ -252,11 +368,11 @@ function addVersion(ver, n) {
   return Math.floor(total / 10) + "." + (total % 10);
 }
 
-function formatDate(d) {
+function formatDate(d, short = false) {
   const y = d.getFullYear();
   const m = String(d.getMonth() + 1).padStart(2, "0");
   const day = String(d.getDate()).padStart(2, "0");
-  return y + "-" + m + "-" + day;
+  return short ? `${m}-${day}` : `${y}-${m}-${day}`;
 }
 
 function daysUntil(dateStr) {
@@ -264,6 +380,14 @@ function daysUntil(dateStr) {
   today.setHours(0, 0, 0, 0);
   const target = new Date(dateStr + "T00:00:00");
   return Math.round((target - today) / DAY);
+}
+
+function hexToRgba(hex, alpha) {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.substring(0, 2), 16);
+  const g = parseInt(h.substring(2, 4), 16);
+  const b = parseInt(h.substring(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 function render() {
@@ -276,65 +400,95 @@ function render() {
     const nextDate = new Date(anchorDate.getTime() + g.cycle * DAY);
     const nextVer = addVersion(g.ver, 1);
 
-    // 当前版本已进行天数 / 总周期
-    const elapsedDays = -daysUntil(g.anchor);
-    const progress = Math.max(0, Math.min(100, Math.round(elapsedDays / g.cycle * 100)));
+    const elapsedDays = Math.max(0, -daysUntil(g.anchor));
+    const remainDays = daysUntil(formatDate(nextDate));
+    const progress = Math.max(0, Math.min(100, Math.round((elapsedDays / g.cycle) * 100)));
+    const isUrgent = remainDays > 0 && remainDays <= 7;
 
-    const nextDays = daysUntil(formatDate(nextDate));
-    const previewDate = new Date(nextDate.getTime() - PREVIEW_LEAD_DAYS * DAY);
+    // 前瞻直播状态智能判定
+    let previewStatusHtml = "";
+    if (!g.hasPreview) {
+      previewStatusHtml = `<span class="meta-value none">不定期</span>`;
+    } else {
+      const previewDate = new Date(nextDate.getTime() - PREVIEW_LEAD_DAYS * DAY);
+      const previewDiff = daysUntil(formatDate(previewDate));
+      if (previewDiff < 0) {
+        previewStatusHtml = `<span class="meta-value done">${formatDate(previewDate, true)} 已结束</span>`;
+      } else if (previewDiff === 0) {
+        previewStatusHtml = `<span class="meta-value upcoming">今晚开启！</span>`;
+      } else {
+        previewStatusHtml = `<span class="meta-value upcoming">${formatDate(previewDate, true)}（${previewDiff}天后）</span>`;
+      }
+    }
 
     const main = isDark ? g.color.dark : g.color.light;
     const soft = isDark ? g.color.soft.dark : g.color.soft.light;
 
-    let countdownHtml;
-    if (nextDays > 0) {
-      countdownHtml = `<div class="countdown-text ${nextDays <= 7 ? "urgent" : ""}">距 ${nextVer} 更新还有 ${nextDays} 天</div>`;
-    } else {
-      countdownHtml = `<div class="countdown-text">${nextVer} 已上线</div>`;
-    }
-
-    const previewHtml = g.hasPreview
-      ? `<div class="info-row"><span class="label">前瞻直播</span><span class="value">${formatDate(previewDate)}</span></div>`
-      : "";
-
-    const card = document.createElement("div");
-    card.className = "card";
+    const card = document.createElement("article");
+    card.className = `card ${isUrgent ? "is-urgent" : ""}`;
     card.style.setProperty("--gc", main);
     card.style.setProperty("--gc-soft", soft);
+    card.style.setProperty("--gc-tint", hexToRgba(main, isDark ? 0.11 : 0.08));
+    card.style.setProperty("--gc-border", hexToRgba(main, isDark ? 0.35 : 0.30));
+
     card.innerHTML = `
-      <div class="card-top"></div>
-      <div class="card-body">
-        <div class="card-head">
-          <div>
-            <div class="game-name">${g.name}</div>
-            <span class="version-label">当前版本</span>
-          </div>
-          <span class="version-badge">${g.ver}</span>
+      <div class="card-header">
+        <div class="game-title">
+          <span class="game-dot"></span>
+          <span>${g.name}</span>
         </div>
-        <div class="info">
-          <div class="info-row"><span class="label">上线日期</span><span class="value">${g.anchor}</span></div>
-          <div class="info-row"><span class="label">版本周期</span><span class="value">${g.cycle} 天</span></div>
-          ${previewHtml}
+        <span class="current-pill">当前 v${g.ver}</span>
+      </div>
+
+      <div class="hero-countdown">
+        <div class="target-label">
+          <span>距离</span>
+          <span class="target-ver">v${nextVer}</span>
+          <span>更新还有</span>
         </div>
-        <div class="next-box">
-          <div class="next-title">下一版本</div>
-          <div class="next-version-line">
-            <span class="ver">${nextVer}</span>
-            <span class="date">${formatDate(nextDate)}</span>
-          </div>
-          <div class="progress-track">
-            <div class="progress-fill" style="width:${progress}%"></div>
-          </div>
-          <div class="progress-note">${g.ver} 已进行 ${elapsedDays} / ${g.cycle} 天</div>
-          ${countdownHtml}
+        <div class="countdown-display">
+          <span class="countdown-num">${remainDays > 0 ? remainDays : "0"}</span>
+          <span class="countdown-unit">${remainDays > 0 ? "天" : "已上线"}</span>
+          ${isUrgent ? `<span class="urgent-tag">即将更新</span>` : ""}
         </div>
-        <a class="notice-btn" href="${g.notice}" target="_blank" rel="noopener">查看版本公告 <span class="arrow">→</span></a>
-      </div>`;
+      </div>
+
+      <div class="timeline-box">
+        <div class="progress-header">
+          <span>周期进度 <strong>${progress}%</strong></span>
+          <span>${elapsedDays} / ${g.cycle} 天</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width:${progress}%"></div>
+        </div>
+        <div class="timeline-dates">
+          <span>起 ${formatDate(anchorDate, true)}</span>
+          <span class="end-date">止 ${formatDate(nextDate, true)}</span>
+        </div>
+      </div>
+
+      <div class="meta-list">
+        <div class="meta-item">
+          <span class="meta-label">前瞻直播</span>
+          ${previewStatusHtml}
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">预计更新</span>
+          <span class="meta-value">${formatDate(nextDate)}</span>
+        </div>
+      </div>
+
+      <a class="notice-btn" href="${g.notice}" target="_blank" rel="noopener">
+        <span>查看版本公告</span>
+        <span class="arrow">→</span>
+      </a>
+    `;
     grid.appendChild(card);
   });
 }
 
 render();
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", render);
 </script>
 </body>
 </html>
