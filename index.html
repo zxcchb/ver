@@ -162,29 +162,6 @@ h1 { font-size: 1.7rem; font-weight: 800; letter-spacing: 1px; }
   color: var(--sub);
   text-align: right;
 }
-.upcoming-box {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 14px;
-  border: 1px dashed var(--line);
-  border-radius: 10px;
-  margin-bottom: 4px;
-}
-.upcoming-text {
-  font-size: 0.82rem;
-  color: var(--sub);
-}
-.upcoming-text strong {
-  color: var(--text);
-  font-weight: 700;
-}
-.upcoming-days {
-  font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--countdown, #ef4444);
-  font-variant-numeric: tabular-nums;
-}
 </style>
 </head>
 <body>
@@ -205,7 +182,7 @@ const GAMES = [
   { name: "崩坏3",    ver: "9.1", anchor: "2026-09-24", cycle: 63, hasPreview: false, color: "#8a6bd1" },
   { name: "原神",     ver: "7.2", anchor: "2026-11-04", cycle: 42, hasPreview: true,  color: "#ffffff" },
   { name: "星穹铁道", ver: "4.7", anchor: "2026-11-11", cycle: 42, hasPreview: true,  color: "#f5a3c7" },
-  { name: "绝区零",   ver: "3.4", anchor: "2026-12-02", cycle: 42, hasPreview: true,  color: "#f59e0b" },
+  { name: "绝区零",   ver: "3.3", anchor: "2026-10-21", cycle: 42, hasPreview: true,  color: "#f59e0b" },
 ];
 
 function addVersion(ver, n) {
@@ -240,10 +217,9 @@ function render() {
     // 白色主题色在浅色模式下需要描边/阴影
     const isWhite = g.color.toLowerCase() === "#ffffff";
 
-    // 当前版本已进行天数（负数 = 还没上线）
+    // 当前版本已进行天数 / 总周期
     const elapsedDays = -daysUntil(g.anchor);
-    const notStarted = elapsedDays < 0;
-    const progress = notStarted ? 0 : Math.min(100, Math.round(elapsedDays / g.cycle * 100));
+    const progress = Math.max(0, Math.min(100, Math.round(elapsedDays / g.cycle * 100)));
 
     const nextDays = daysUntil(formatDate(nextDate));
 
@@ -256,22 +232,6 @@ function render() {
       countdownHtml = `<div class="countdown-text ${urgent ? "urgent" : ""}">距离 ${nextVer} 更新还有 ${nextDays} 天</div>`;
     } else {
       countdownHtml = `<div class="countdown-text done">${nextVer} 已上线</div>`;
-    }
-
-    // 进度区：已上线版本画进度条；未上线版本画"距上线倒计时"提示
-    let progressHtml;
-    if (notStarted) {
-      progressHtml = `
-        <div class="upcoming-box" style="border-color:${g.color}40">
-          <span class="upcoming-text">${g.ver} 将于 <strong style="color:${g.color}">${g.anchor}</strong> 上线</span>
-          <span class="upcoming-days">还有 ${-elapsedDays} 天</span>
-        </div>`;
-    } else {
-      progressHtml = `
-        <div class="progress-track">
-          <div class="progress-fill ${isWhite ? "white-fill" : ""}" style="width:${progress}%;background:${g.color}"></div>
-        </div>
-        <div class="progress-note">${g.ver} 已进行 ${elapsedDays} / ${g.cycle} 天</div>`;
     }
 
     const previewHtml = g.hasPreview
@@ -301,7 +261,10 @@ function render() {
             <span class="ver" style="color:${g.color}">${nextVer}</span>
             <span class="date">${formatDate(nextDate)}</span>
           </div>
-          ${progressHtml}
+          <div class="progress-track">
+            <div class="progress-fill ${isWhite ? "white-fill" : ""}" style="width:${progress}%;background:${g.color}"></div>
+          </div>
+          <div class="progress-note">${g.ver} 已进行 ${elapsedDays} / ${g.cycle} 天</div>
           ${countdownHtml}
         </div>
       </div>`;
