@@ -197,6 +197,23 @@ h1 {
   color: var(--urgent);
   font-weight: 800;
 }
+.notice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 14px;
+  padding: 8px 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gc);
+  text-decoration: none;
+  border-top: 1px solid var(--line);
+  letter-spacing: 0.3px;
+  transition: opacity 0.15s ease;
+}
+.notice-btn:hover { opacity: 0.75; }
+.notice-btn .arrow { font-size: 0.9rem; transition: transform 0.15s ease; }
+.notice-btn:hover .arrow { transform: translateX(2px); }
 </style>
 </head>
 <body>
@@ -212,16 +229,20 @@ h1 {
 const DAY = 24 * 60 * 60 * 1000;
 const PREVIEW_LEAD_DAYS = 14; // 前瞻直播通常在版本结束前约 2 周
 
-// 名称 | 当前版本 | 上线日期 | 周期(天) | 有无前瞻 | 主色 | 辅色(用于渐变)
+// 名称 | 当前版本 | 上线日期 | 周期(天) | 有无前瞻 | 主色 | 辅色(用于渐变) | 米游社版本专题页
 // 主色/辅色分别适配深色(亮)与浅色(暗)两种模式
 const GAMES = [
   { name: "崩坏3",    ver: "9.1", anchor: "2026-09-24", cycle: 63, hasPreview: false,
+    notice: "https://www.miyoushe.com/bh3/gameCenter/14",
     color: { light: "#7c5bd6", dark: "#a78bfa", soft: { light: "#a78bfa", dark: "#6d4fc0" } } },
   { name: "原神",     ver: "7.2", anchor: "2026-11-04", cycle: 42, hasPreview: true,
+    notice: "https://www.miyoushe.com/ys/gameCenter/3",
     color: { light: "#c78a1e", dark: "#e8b54a", soft: { light: "#e0ad3f", dark: "#b5791a" } } },
   { name: "星穹铁道", ver: "4.7", anchor: "2026-11-11", cycle: 42, hasPreview: true,
+    notice: "https://www.miyoushe.com/sr/gameCenter/19",
     color: { light: "#d06a9a", dark: "#f2a6c8", soft: { light: "#e89ac0", dark: "#c25a8a" } } },
   { name: "绝区零",   ver: "3.3", anchor: "2026-10-21", cycle: 42, hasPreview: true,
+    notice: "https://www.miyoushe.com/zzz/gameCenter/9",
     color: { light: "#e05a2b", dark: "#f5814d", soft: { light: "#f08a5c", dark: "#cf4f22" } } },
 ];
 
@@ -307,6 +328,7 @@ function render() {
           <div class="progress-note">${g.ver} 已进行 ${elapsedDays} / ${g.cycle} 天</div>
           ${countdownHtml}
         </div>
+        <a class="notice-btn" href="${g.notice}" target="_blank" rel="noopener">查看版本公告 <span class="arrow">→</span></a>
       </div>`;
     grid.appendChild(card);
   });
