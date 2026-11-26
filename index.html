@@ -406,7 +406,7 @@ select { padding: 5px 10px; border-radius: 9px; border: 1px solid var(--border);
 "use strict";
 const DAY = 86400000, KEY = "hoyo-pv-v13", LIMIT = 24, PAGE_MAX = 300;
 const WK = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
-const CATS = ["版本PV", "剧情PV", "过场动画", "角色演示", "角色PV", "动画短片", "EP", "音乐", "前瞻", "其他"];
+const CATS = ["版本PV", "剧情PV", "千星纪游", "过场动画", "角色演示", "角色PV", "动画短片", "EP", "音乐", "前瞻", "纪念活动", "其他"];
 const PLAY_ICON = `<div class="play-wrap"><div class="play-btn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></div></div>`;
 
 const GAMES = [
@@ -563,13 +563,15 @@ function classify(s, g) {
   if (g === "hsr" && s.includes("走近星穹")) return "角色演示";
   if (/前瞻特别节目|版本前瞻|前瞻直播|前瞻预告|版本预告|直播回顾/.test(s) || (/前瞻/.test(s) && !/走近星穹/.test(s))) return "前瞻";
   if (/过场动画|过场短片|CG\b/i.test(s)) return "过场动画";
-  if (/剧情\s*PV|剧情短片|剧情预告|千星纪游\s*PV|星旅纪行/i.test(s)) return "剧情PV";
+  if (/千星纪游/.test(s)) return "千星纪游"; // 星铁世界观系列（翁法罗斯英雄纪、星际和平倡议等），单列方便直达
+  if (/剧情\s*PV|剧情短片|剧情预告/.test(s)) return "剧情PV";
   if (s.includes("动画短片")) return "动画短片";
   if (/版本\s*PV/i.test(s)) return "版本PV";
   if (/角色演示|角色预告|角色展示/.test(s)) return "角色演示";
   if (/角色\s*PV/i.test(s)) return "角色PV";
   if (/(?:^|[^A-Za-z])EP(?![A-Za-z])/i.test(s)) return "EP";
   if (/(?:^|[^A-Za-z])MV|主题曲|印象曲|OP\b|角色曲/i.test(s)) return "音乐";
+  if (/纪念|周年|生日|回顾|庆典|嘉年华|FES|活动汇总|祝福/.test(s)) return "纪念活动";
   return "其他";
 }
 
